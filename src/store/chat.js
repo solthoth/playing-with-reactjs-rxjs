@@ -10,6 +10,17 @@ const initialState = {
 let state = initialState;
 
 const chatStore = {
-    init: () => subject.next(state),
-    subscribe: setState => subject.subscribe(setState)
+    init: () => {
+        state = {...state, newDataCount: 0},
+        subject.next(state)
+    },
+    subscribe: setState => subject.subscribe(setState),
+    sendMessage: message => {
+        state = {
+            ...state,
+            data: [...state.data, message],
+            newDataCount: state.newDataCount + 1
+        };
+        subject.next(state);
+    }
 }
